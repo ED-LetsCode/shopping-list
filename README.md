@@ -1,6 +1,6 @@
 # Simple React Shopping List
 
-<img src="./img.PNG" width="400px">
+<img src="./img.PNG" width="500px">
 
 # Getting Started with Create React App
 
