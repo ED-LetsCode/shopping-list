@@ -5,52 +5,42 @@ import { v4 as uuid } from "uuid";
 
 function App() {
   const [item, setItem] = useState("");
-  const [items, setItems] = useState([
-    {
-      id: uuid(),
-      name: "sdfdsfsf",
-      checked: true,
-    },
-    {
-      id: uuid(),
-      name: "sdfg",
-      checked: false,
-    },
-  ]);
+  const [items, setItems] = useState([]);
 
   const handleAdd = () => {
     setItems((prevItems) => [
-      { id: uuid(), name: item, checked: false },
       ...prevItems,
+      { id: uuid(), name: item, checked: false },
     ]);
+    setItem("");
   };
 
-  const handleCheck = (event, item) => {
-    if (event.target.checked) {
-      const newItem = {
-        ...item,
-        checked: !item.checked,
-      };
-
-      setItems((prevItems) => {
-        const filteredItems = prevItems.filter(
-          (prevItem) => prevItem.id !== item.id
-        );
-        return [...filteredItems, newItem];
+  const handleCheck = (event, itemId) => {
+    setItems((prevItems) => {
+      return prevItems.map((item) => {
+        return item.id === itemId ? { ...item, checked: !item.checked } : item;
       });
-    }
+    });
   };
-  console.clear();
-  console.log(items);
-  const removeItem = (event, item) => {};
+
+  const handleRemove = (itemId) => {
+    setItems((prevItems) => {
+      return prevItems.filter((prevItem) => prevItem.id !== itemId);
+    });
+  };
 
   return (
     <div className="bg-slate-800 w-screen h-screen flex items-center justify-center flex-col">
-      <h1 className=" text-5xl text-gray-300 mb-5">Shopping List</h1>
-      <div className="w-4/6 h-2/3 bg-gray-300 rounded-md p-3">
+      <h1 className=" text-5xl text-gray-200 mb-5">Shopping List</h1>
+      <div className="w-4/6 h-2/3 bg-gray-200 rounded-md p-3">
         <div className="w-full h-[90%] overflow-x-auto">
           {items.map((item) => (
-            <Item key={item.id} props={item} handleCheck={handleCheck} />
+            <Item
+              key={item.id}
+              props={item}
+              handleCheck={handleCheck}
+              handleRemove={handleRemove}
+            />
           ))}
         </div>
 
@@ -59,6 +49,7 @@ function App() {
             className="w-[90%] h-10 rounded-md text-center bg-gray-50"
             type="text"
             placeholder="Enter a Item"
+            value={item}
             onChange={(event) => setItem(event.target.value)}
           />
           <button

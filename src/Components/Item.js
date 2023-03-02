@@ -1,7 +1,7 @@
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 
-export default function Item({ props, handleCheck }) {
+export default function Item({ props, handleCheck, handleRemove }) {
   return (
     <div
       className={`flex p-3 rounded-md mb-3 ${
@@ -13,10 +13,10 @@ export default function Item({ props, handleCheck }) {
         <input
           className="mb-3"
           type="checkbox"
-          onChange={(event) => handleCheck(event, props)}
+          onChange={(event) => handleCheck(event, props.id)}
           checked={props.checked}
         />
-        <FaTrashAlt className="h-10" onClick={() => console.log("clicked")} />
+        <FaTrashAlt className="h-10" onClick={() => handleRemove(props.id)} />
       </div>
     </div>
   );
